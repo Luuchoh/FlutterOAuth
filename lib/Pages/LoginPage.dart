@@ -1,12 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_oauth/Common/TransitionApp.dart';
+import 'package:flutter_oauth/Pages/HomePage.dart';
+import 'package:flutter_oauth/Pages/LoadingPage.dart';
 import 'package:flutter_oauth/Pages/SignUpPage.dart';
 import 'package:flutter_oauth/Widgets/ResetPasswordDialog.dart';
 
 import '../Widgets/BarGradient.dart';
 import '../Widgets/ButtonBase.dart';
+import '../Widgets/ProgressDialog.dart';
+import '../Widgets/SnackBarApp.dart';
 import '../Widgets/TextFieldBase.dart';
+import '../Widgets/TextMessage.dart';
 
 class LoginPage extends StatelessWidget{
 
@@ -39,7 +44,7 @@ class LoginPage extends StatelessWidget{
             ),
             Padding(
               padding: EdgeInsets.all(30.0),
-              child: ButtonBase('Iniciar Sesión', () => login(),),
+              child: ButtonBase('Iniciar Sesión', () => login(context),),
             ),
             InkWell(
               // child: RichText(
@@ -82,8 +87,21 @@ class LoginPage extends StatelessWidget{
     );
   }
 
-  login() {
+  login(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBarApp(
+      TextMessage("Usuario o Contraseña Incorrecto")
+    ));
+    // showProgress(context);
+    // TransitionApp.openPage(context, LoadingPage());
+  }
 
+  Future<void> showProgress(BuildContext context) async{
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ProgressDialog();
+      }
+    );
   }
 
   signUp(BuildContext context) {
