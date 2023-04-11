@@ -1,4 +1,5 @@
 import 'package:flutter_oauth/Common/Validate.dart';
+import 'package:flutter_oauth/HttpProtocol/EndPoint.dart';
 
 class Count {
 
@@ -27,7 +28,7 @@ class Count {
       accessToken: validate.checkKeyExists(key: 'access_token', initialize: ""),
       refreshToken: validate.checkKeyExists(key: 'refresh_token', initialize: ""),
       createdAt: validate.checkKeyExists(key: 'created_at', initialize: ""),
-      expiresIn: validate.checkKeyExists(key: 'expires_in', initialize: ""),
+      expiresIn: '${validate.checkKeyExists(key: 'expires_in', initialize: "")}',
       expiresTime: validate.checkKeyExists(key: 'expires_time', initialize: ""),
       tokenType: validate.checkKeyExists(key: 'token_type', initialize: ""),
     );
@@ -42,6 +43,16 @@ class Count {
     'expires_time': expiresTime,
     'token_type': tokenType,
     };
+  }
+
+  login(String email, String password) async{
+    var data = await EndPoint.login(email, password);
+    print("access $data");
+    return Validate(data: data).checkIsStatusOrResponse(saveOrUpdate);
+  }
+
+  saveOrUpdate(data) {
+    return Count.toObject(data);
   }
 
 }

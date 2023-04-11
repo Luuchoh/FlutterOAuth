@@ -4,16 +4,24 @@ import 'package:flutter_oauth/HttpProtocol/Status.dart';
 import 'package:flutter_oauth/Widgets/TextMessage.dart';
 import 'package:http/http.dart';
 
-typedef VoidCallBackParam(String param);
+import '../Model/Count.dart';
+
+typedef VoidCallBackParam(var param);
 
 class HttpExecute {
 
   String endpoint;
   var parameters;
-  HttpExecute({this.endpoint='', this.parameters});
+  Count? count;
+
+  HttpExecute({this.endpoint='', this.parameters, this.count});
 
   post() async{
     return await checkConnection(executeMethod, 'post');
+  }
+
+  get() async{
+    return await checkConnection(executeMethod, 'get');
   }
 
   checkConnection(VoidCallBackParam voidCallBackParam, String type) async{
@@ -23,7 +31,7 @@ class HttpExecute {
             : Status(type: CONNECTION_DISABLED, statusWidget: TextMessage('Sin conexión'));
   }
 
-  executeMethod(String type) async{
+  executeMethod(var type) async{
     Response? response;
     switch(type) {
       case 'post':
@@ -32,6 +40,14 @@ class HttpExecute {
           headers: header,
           body: parameters
         );
+        break;
+      case 'get':
+        response = await Client().get(
+            uri,
+            headers: header,
+        );
+
+        print('respuesta get ${response.body}');
         break;
     }
     return validateResponse(response);
@@ -51,10 +67,15 @@ class HttpExecute {
     return Uri.parse(URL + endpoint);
   }
 
-  get header {
+  Map<String, String>? get header {
     return {
-      "content-type": "application/x-www-form-urlencoded"
+      "content-type": "application/x-www-form-urlencoded",
+      "Authorization": count != null ? authorization : ''
     };
+  }
+
+  get authorization {
+    return "${count!.tokenType} ${count!.accessToken}";
   }
 
 }
