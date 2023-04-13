@@ -31,7 +31,7 @@ class Count extends CRUD{
       accessToken: validate.checkKeyExists(key: 'access_token', initialize: ""),
       refreshToken: validate.checkKeyExists(key: 'refresh_token', initialize: ""),
       createdAt: validate.checkKeyExists(key: 'created_at', initialize: ""),
-      expiresIn: '${validate.checkKeyExists(key: 'expires_in', initialize: "")}',
+      expiresIn: validate.checkKeyExists(key: 'expires_in', initialize: "").toString(),
       expiresTime: validate.checkKeyExists(key: 'expires_time', initialize: ""),
       tokenType: validate.checkKeyExists(key: 'token_type', initialize: ""),
     );
@@ -61,7 +61,7 @@ class Count extends CRUD{
   }
 
   getCount() async{
-    List<Map<String, Object?>> result =  await query("SELECT * FROM ${Tables.COUNT}");
+    List<Map<String, Object?>> result = await query("SELECT * FROM ${Tables.COUNT}");
     return (result.isNotEmpty) ? Count.toObject(result[0]) : null;
   }
 

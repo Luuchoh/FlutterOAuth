@@ -12,7 +12,7 @@ class Tables {
             "access_token TEXT,"
             "refresh_token TEXT,"
             "token_type TEXT,"
-            "expire_time TEXT,"
+            "expires_time TEXT,"
             "created_at TEXT,"
             "expires_in TEXT"
             ")",

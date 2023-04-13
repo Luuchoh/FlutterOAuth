@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_oauth/Common/TransitionApp.dart';
+import 'package:flutter_oauth/Common/Validate.dart';
+import 'package:flutter_oauth/HttpProtocol/Status.dart';
 import 'package:flutter_oauth/Model/Count.dart';
 import 'package:flutter_oauth/Model/User.dart';
 import 'package:flutter_oauth/Pages/SignUpPage.dart';
@@ -9,7 +11,9 @@ import 'package:flutter_oauth/Widgets/ResetPasswordDialog.dart';
 import 'package:flutter_oauth/Widgets/BarGradient.dart';
 import 'package:flutter_oauth/Widgets/ButtonBase.dart';
 import 'package:flutter_oauth/Widgets/ProgressDialog.dart';
+import 'package:flutter_oauth/Widgets/SnackBarApp.dart';
 import 'package:flutter_oauth/Widgets/TextFieldBase.dart';
+import 'package:flutter_oauth/Widgets/TextMessage.dart';
 
 class LoginPage extends StatelessWidget{
 
@@ -94,13 +98,32 @@ class LoginPage extends StatelessWidget{
     // "updated_at": "2023-04-11T02:47:37.624Z"
     // }
 
-    Count count = await Count().login('luuchoh.02@gmail.com', 'Luishernandez.02');
-    User().getUser();
-    // ScaffoldMessenger.of(context).showSnackBar(SnackBarApp(
-    //   TextMessage("Usuario o Contraseña Incorrecto")
-    // ));
-    // showProgress(context);
+    showProgress(context);
+
+    var count = await Count().login('luuchoh.02@gmail.com', 'Luishernandez.02');
+    
+    // print("count login id = ${count.id} REFRESH= ${count.refreshToken} ACCESS = ${count.accessToken} CREATE = ${count.createdAt} EXPIRES IN = ${count.expiresIn} EXPIRES_TIME = ${count.expiresTime} TYPE = ${count.tokenType}");
+
+    if(Validate.isNotStatus(count)){
+      var user = await User().getUser();
+      if(Validate.isNotStatus(user)){
+        TransitionApp.closePageOrDialog(context);
+      } else
+        error(count, context);
+    } else
+      error(count, context);
+
+
     // TransitionApp.openPage(context, LoadingPage());
+  }
+
+  error(Status status,BuildContext context) {
+    TransitionApp.closePageOrDialog(context);
+    ScaffoldMessenger.of(context).showSnackBar(SnackBarApp(
+      Validate.isWrongEmailPassword(status.response)
+          ? TextMessage("Usuario o Contraseña Incorrecto")
+          : status.statusWidget
+    ));
   }
 
   Future<void> showProgress(BuildContext context) async{

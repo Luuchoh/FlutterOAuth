@@ -21,7 +21,7 @@ abstract class CRUD {
   }
   insert(Map<String, dynamic> data) async{
     final db = await database;
-    return await db.update(table, data);
+    return await db.insert(table, data);
   }
   delete(int id) async{
     final db = await database;

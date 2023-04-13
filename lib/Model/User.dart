@@ -37,11 +37,11 @@ class User extends CRUD {
 
   getUser() async{
     var data = await EndPoint.getUser();
-    print("object $data");
+    print("data user $data");
     return Validate(data: data).checkIsStatusOrResponse(saveOrUpdate);
   }
 
   saveOrUpdate(data) {
-    // return User.toObject(data);
+    return User.toObject(data);
   }
 }

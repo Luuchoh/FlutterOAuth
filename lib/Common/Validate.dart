@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_oauth/HttpProtocol/HttpExecute.dart';
 import 'package:flutter_oauth/HttpProtocol/Status.dart';
+import 'package:http/http.dart';
 
 class Validate {
 
@@ -23,6 +24,10 @@ class Validate {
 
   static bool isNotStatus(data) {
     return(data != null && data is !Status);
+  }
+
+  static bool isWrongEmailPassword(Response? response) {
+    return response!.statusCode == 403;
   }
 
 }
