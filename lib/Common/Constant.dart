@@ -10,6 +10,6 @@ const USERNAME = 'username';
 const PASSWORD = 'password';
 const AUDIENCE = 'audience';
 const API = '/api/v2/';
-const SCOPE = 'client_id';
+const SCOPE = 'scope';
 const CLIENT_ID = 'client_id';
 const CLIENT_SECRET = 'client_secret';

@@ -46,7 +46,6 @@ class HttpExecute {
             uri,
             headers: header,
         );
-
         print('respuesta get ${response.body}');
         break;
     }
