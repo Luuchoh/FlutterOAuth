@@ -13,8 +13,9 @@ class HttpExecute {
   String endpoint;
   var parameters;
   Count? count;
+  bool? isRefresh;
 
-  HttpExecute({this.endpoint='', this.parameters});
+  HttpExecute({this.endpoint='', this.parameters, this.isRefresh});
 
   post() async{
     return await checkConnection(executeMethod, 'post');
@@ -34,6 +35,13 @@ class HttpExecute {
   executeMethod(var type) async{
     Response? response;
     count = await Count().getCount();
+
+    count = (count != null)
+              ? isRefresh!
+                ? count
+                : await count!.verifyToken()
+              : count;
+
     switch(type) {
       case 'post':
         response = await Client().post(

@@ -72,4 +72,24 @@ class Count extends CRUD{
     return count;
   }
 
+  Future<Count> verifyToken() async{
+    Count count = this;
+    if(isInvalidAccessToken()){
+      var refreshCount = await refreshAccessToken();
+      if(Validate.isNotStatus(refreshCount)) {
+        count = refreshCount;
+      }
+    }
+    return count;
+  }
+
+  refreshAccessToken() async{
+    var data = await EndPoint.refreshAccessToken(refreshToken);
+    return Validate(data: data).checkIsStatusOrResponse(saveOrUpdate);
+  }
+
+  bool isInvalidAccessToken() {
+    return DateTime.now().isAfter(DateTime.parse(expiresTime));
+  }
+
 }

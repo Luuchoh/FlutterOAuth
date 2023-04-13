@@ -11,7 +11,7 @@ class EndPoint {
       USERNAME: email,
       PASSWORD: password,
       AUDIENCE: URL + API,
-      SCOPE: 'openid',
+      SCOPE: 'offline_access openid',
       CLIENT_ID: APP_ID,
       CLIENT_SECRET: APP_SECRET,
     };
@@ -21,5 +21,16 @@ class EndPoint {
 
   static getUser() {
     return HttpExecute(endpoint: '/userinfo').get();
+  }
+
+  static refreshAccessToken(String refreshToken) {
+    Map parameters = {
+      GRANT_TYPE: 'refresh_token',
+      REFRESH_TOKEN: refreshToken,
+      CLIENT_ID: APP_ID,
+      CLIENT_SECRET: APP_SECRET,
+    };
+
+    return HttpExecute(endpoint: '/oauth/token', parameters: parameters, isRefresh: true).post();
   }
 }

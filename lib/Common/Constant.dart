@@ -13,3 +13,4 @@ const API = '/api/v2/';
 const SCOPE = 'scope';
 const CLIENT_ID = 'client_id';
 const CLIENT_SECRET = 'client_secret';
+const REFRESH_TOKEN = 'refresh_token';

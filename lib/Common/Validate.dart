@@ -16,10 +16,13 @@ class Validate {
   }
 
   checkIsStatusOrResponse(VoidCallBackParam method) {
-
     return (data is Status)
             ? data
             : method(json.decode(data));
+  }
+
+  static bool isNotStatus(data) {
+    return(data != null && data is !Status);
   }
 
 }
