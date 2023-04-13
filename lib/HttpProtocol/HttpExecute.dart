@@ -14,7 +14,7 @@ class HttpExecute {
   var parameters;
   Count? count;
 
-  HttpExecute({this.endpoint='', this.parameters, this.count});
+  HttpExecute({this.endpoint='', this.parameters});
 
   post() async{
     return await checkConnection(executeMethod, 'post');
@@ -33,6 +33,7 @@ class HttpExecute {
 
   executeMethod(var type) async{
     Response? response;
+    count = await Count().getCount();
     switch(type) {
       case 'post':
         response = await Client().post(

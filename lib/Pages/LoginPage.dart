@@ -3,17 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_oauth/Common/TransitionApp.dart';
 import 'package:flutter_oauth/Model/Count.dart';
 import 'package:flutter_oauth/Model/User.dart';
-import 'package:flutter_oauth/Pages/HomePage.dart';
-import 'package:flutter_oauth/Pages/LoadingPage.dart';
 import 'package:flutter_oauth/Pages/SignUpPage.dart';
 import 'package:flutter_oauth/Widgets/ResetPasswordDialog.dart';
 
-import '../Widgets/BarGradient.dart';
-import '../Widgets/ButtonBase.dart';
-import '../Widgets/ProgressDialog.dart';
-import '../Widgets/SnackBarApp.dart';
-import '../Widgets/TextFieldBase.dart';
-import '../Widgets/TextMessage.dart';
+import 'package:flutter_oauth/Widgets/BarGradient.dart';
+import 'package:flutter_oauth/Widgets/ButtonBase.dart';
+import 'package:flutter_oauth/Widgets/ProgressDialog.dart';
+import 'package:flutter_oauth/Widgets/TextFieldBase.dart';
 
 class LoginPage extends StatelessWidget{
 
@@ -99,7 +95,7 @@ class LoginPage extends StatelessWidget{
     // }
 
     Count count = await Count().login('luuchoh.02@gmail.com', 'Luishernandez.02');
-    User().getUser(count);
+    User().getUser();
     // ScaffoldMessenger.of(context).showSnackBar(SnackBarApp(
     //   TextMessage("Usuario o Contraseña Incorrecto")
     // ));

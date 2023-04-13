@@ -1,7 +1,10 @@
 import 'package:flutter_oauth/Common/Validate.dart';
+import 'package:flutter_oauth/Database/CRUD.dart';
+import 'package:flutter_oauth/Database/Tables.dart';
 import 'package:flutter_oauth/HttpProtocol/EndPoint.dart';
 
-class Count {
+
+class Count extends CRUD{
 
   int id;
   String accessToken;
@@ -19,7 +22,7 @@ class Count {
     this.expiresIn = '',
     this.expiresTime = '',
     this.tokenType = '',
-  });
+  }):super(Tables.COUNT);
 
   factory Count.toObject(Map<String, Object?> data) {
     Validate validate = Validate(data: data);
@@ -51,8 +54,22 @@ class Count {
     return Validate(data: data).checkIsStatusOrResponse(saveOrUpdate);
   }
 
-  saveOrUpdate(data) {
-    return Count.toObject(data);
+  saveOrUpdate(data) async{
+    Count count = addExpireTime(Count.toObject(data));
+    count.id = (count.id > 0) ? await update(count.toMap()) : await insert(count.toMap());
+    return count;
+  }
+
+  getCount() async{
+    List<Map<String, Object?>> result =  await query("SELECT * FROM ${Tables.COUNT}");
+    return (result.isNotEmpty) ? Count.toObject(result[0]) : null;
+  }
+
+  addExpireTime(Count count) {
+    var time = DateTime.now();
+    count.expiresTime = time.add(Duration(seconds: int.parse(count.expiresIn))).toString();
+    count.createdAt = time.toString();
+    return count;
   }
 
 }

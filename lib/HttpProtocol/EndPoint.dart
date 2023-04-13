@@ -1,8 +1,6 @@
 import 'package:flutter_oauth/Common/Constant.dart';
 import 'package:flutter_oauth/HttpProtocol/HttpExecute.dart';
 
-import '../Model/Count.dart';
-
 class EndPoint {
 
   EndPoint();
@@ -21,7 +19,7 @@ class EndPoint {
     return HttpExecute(endpoint: '/oauth/token', parameters: parameters).post();
   }
 
-  static getUser(Count count) {
-    return HttpExecute(endpoint: '/userinfo', count: count).get();
+  static getUser() {
+    return HttpExecute(endpoint: '/userinfo').get();
   }
 }

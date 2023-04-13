@@ -1,8 +1,10 @@
-import '../Common/Validate.dart';
-import '../HttpProtocol/EndPoint.dart';
-import 'Count.dart';
+import 'package:flutter_oauth/Common/Validate.dart';
+import 'package:flutter_oauth/Database/CRUD.dart';
+import 'package:flutter_oauth/Database/Tables.dart';
+import 'package:flutter_oauth/HttpProtocol/EndPoint.dart';
 
-class User {
+
+class User extends CRUD {
   int id;
   String userName;
   String name;
@@ -13,7 +15,7 @@ class User {
     this.userName = '',
     this.name = '',
     this.email = '',
-  });
+  }):super(Tables.USER);
 
   factory User.toObject(Map<String, Object?> data) {
     Validate validate = Validate(data: data);
@@ -33,8 +35,8 @@ class User {
     };
   }
 
-  getUser(Count count) async{
-    var data = await EndPoint.getUser(count);
+  getUser() async{
+    var data = await EndPoint.getUser();
     print("object $data");
     return Validate(data: data).checkIsStatusOrResponse(saveOrUpdate);
   }
