@@ -1,14 +1,33 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_oauth/Common/TransitionApp.dart';
+import 'package:flutter_oauth/Common/Validate.dart';
 import 'package:flutter_oauth/Model/Count.dart';
 import 'package:flutter_oauth/Model/User.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
 
   User user;
   Count count;
 
   HomePage(this.user, this.count);
+
+  @override
+  State<StatefulWidget> createState() => HomePageState(user, count);
+
+}
+  class HomePageState extends State<HomePage> {
+
+  User user;
+  Count count;
+
+  HomePageState(this.user, this.count);
+
+
+  @override
+  void initState() {
+    User().getUserServer();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +38,7 @@ class HomePage extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            onPressed: () => closeSession(),
+            onPressed: () => closeSession(context),
             icon: const Icon(
               Icons.exit_to_app_rounded,
               color: Colors.white,
@@ -54,8 +73,10 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  closeSession() {
-
+  closeSession(BuildContext context) async{
+    if(await Validate.deleteUserAndCount(count, user)) {
+      TransitionApp.goMain(context);
+    }
   }
 
 }

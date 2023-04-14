@@ -43,7 +43,7 @@ class User extends CRUD {
 
   saveOrUpdate(data) async{
     User user =  User.toObject(data);
-    user.id = (user.id > 0) ? await update(user.toMap()) : await update(user.toMap());
+    user.id = (user.id > 0) ? await update(user.toMap()) : await insert(user.toMap());
     return user;
   }
 
