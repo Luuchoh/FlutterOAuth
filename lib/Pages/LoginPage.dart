@@ -108,6 +108,7 @@ class LoginPage extends StatelessWidget{
       var user = await User().getUserServer();
       if(Validate.isNotStatus(user)){
         TransitionApp.closePageOrDialog(context);
+        TransitionApp.goMain(context, count: count, user: user);
       } else
         error(count, context);
     } else

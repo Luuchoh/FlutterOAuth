@@ -1,7 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_oauth/Model/Count.dart';
+import 'package:flutter_oauth/Model/User.dart';
 
 class HomePage extends StatelessWidget {
+
+  User user;
+  Count count;
+
+  HomePage(this.user, this.count);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,15 +31,15 @@ class HomePage extends StatelessWidget {
       ),
       drawer: Drawer(
         child: ListView(
-          children: const [
+          children: [
             UserAccountsDrawerHeader(
               accountName: Text(
-                'Liucho'
+                user!.name,
               ),
               accountEmail: Text(
-                  'Liucho@example.com'
+                  user!.email
               ),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.deepPurple
               ),
             ),
