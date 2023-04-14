@@ -105,7 +105,7 @@ class LoginPage extends StatelessWidget{
     // print("count login id = ${count.id} REFRESH= ${count.refreshToken} ACCESS = ${count.accessToken} CREATE = ${count.createdAt} EXPIRES IN = ${count.expiresIn} EXPIRES_TIME = ${count.expiresTime} TYPE = ${count.tokenType}");
 
     if(Validate.isNotStatus(count)){
-      var user = await User().getUser();
+      var user = await User().getUserServer();
       if(Validate.isNotStatus(user)){
         TransitionApp.closePageOrDialog(context);
       } else

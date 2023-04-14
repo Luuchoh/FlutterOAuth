@@ -35,13 +35,20 @@ class User extends CRUD {
     };
   }
 
-  getUser() async{
+  getUserServer() async{
     var data = await EndPoint.getUser();
     print("data user $data");
     return Validate(data: data).checkIsStatusOrResponse(saveOrUpdate);
   }
 
-  saveOrUpdate(data) {
-    return User.toObject(data);
+  saveOrUpdate(data) async{
+    User user =  User.toObject(data);
+    user.id = (user.id > 0) ? await update(user.toMap()) : await update(user.toMap());
+    return user;
+  }
+
+  Future<User?> getUserLocalDB() async{
+    List<Map<String, Object?>> result = await query('SELECT * FROM ${Tables.USER}');
+    return (result.isNotEmpty) ? User.toObject(result[0]): null;
   }
 }
